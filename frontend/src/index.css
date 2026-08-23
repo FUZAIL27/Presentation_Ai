@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --paper: 247 249 252;
+    --paper-dim: 236 240 247;
+    --ink: 3 4 94;
+    --ink-soft: 34 51 59;
+    --ink-faint: 100 116 139;
+    --surface: 255 255 255;
+    --surface-raised: 255 255 255;
+    --glass-border: 3 4 94;
+    color-scheme: light;
+  }
+
+  /* Deliberately deep, not just "inverted light mode" — near-black navy base with
+     layered surfaces so cards/dropdowns/dialogs read as genuinely elevated. */
+  .dark {
+    --paper: 5 6 16;
+    --paper-dim: 10 12 26;
+    --ink: 230 235 245;
+    --ink-soft: 168 218 220;
+    --ink-faint: 110 124 148;
+    --surface: 14 16 34;
+    --surface-raised: 20 23 46;
+    --glass-border: 168 218 220;
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-ink/10;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-feature-settings: 'cv11', 'ss01';
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+  ::selection {
+    background-color: theme('colors.violet.300');
+    color: theme('colors.navy.700');
+  }
+  :focus-visible {
+    outline: 2px solid theme('colors.violet.500');
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: theme('colors.ink.DEFAULT' / 15%);
+    border-radius: 999px;
+  }
+  .glass {
+    background-color: rgb(var(--surface) / 0.65);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgb(var(--glass-border) / 0.12);
+  }
+  .glass-strong {
+    background-color: rgb(var(--surface) / 0.88);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid rgb(var(--glass-border) / 0.14);
+  }
+  .app-mesh-bg {
+    background-image: theme('backgroundImage.gradient-mesh');
+  }
+  .dark .app-mesh-bg {
+    background-image: theme('backgroundImage.gradient-mesh-dark');
+  }
+  .gradient-border {
+    position: relative;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+  }
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    margin: -1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgb(124 58 237 / 0.6), rgb(34 184 207 / 0.6));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
